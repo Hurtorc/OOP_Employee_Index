@@ -3,8 +3,6 @@ const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const fs = require("fs");
-const internal = require("stream");
-const Employee = require("./lib/Employee");
 
 const employees = [];
 //TODO - write your inquirer app here to gather information about the team members, and generate the HTML file using fs
@@ -37,17 +35,18 @@ function newEmployee() {
     .then(({ position, email, id, name }) => {
       switch (position) {
         case "Manager": //TODO - add office number
-          inquirer.prompt([
-            {
-              type: "input",
-              name: "officeNumber",
-              message: "What is the office number of this employee?",
-            },
-          ]);
-          t.then(({ officeNumber }) => {
-            employees.push(new Manager(name, id, email, officeNumber));
-          });
-
+          inquirer
+            .prompt([
+              {
+                type: "input",
+                name: "officeNumber",
+                message: "What is the office number of this employee?",
+              },
+            ])
+            .then(({ officeNumber }) => {
+              employees.push(new Manager(name, id, email, officeNumber));
+              addEmployee();
+            });
         case "Intern": //TODO - add school
           inquirer
             .prompt([
@@ -59,6 +58,7 @@ function newEmployee() {
             ])
             .then(({ school }) => {
               employees.push(new Intern(name, id, email, school));
+              addEmployee();
             });
 
         case "Engineer": //TODO - add github username
@@ -72,11 +72,11 @@ function newEmployee() {
             ])
             .then(({ github }) => {
               employees.push(new Engineer(name, id, email, github));
+              addEmployee();
             });
 
         default: //TODO - add default
       }
-      addEmployee();
     });
 }
 
@@ -96,12 +96,19 @@ function addEmployee() {
         renderHTMLFile();
       }
     });
-}
-
-function renderHTMLFile() {
-  fs.writeFile(
-    `./index.html`,
-    /*html*/ `
+  function renderHTMLFile() {
+    fs.writeFileSync(
+      `./index.html`,
+      /*html*/ `
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+          <title>Employee List</title>
+        </head>
     <ul>
       ${employees.map(
         (employee) => /*html*/ `
@@ -117,9 +124,9 @@ function renderHTMLFile() {
       )}
     </ul>
   `
-  );
+    );
+  }
 }
 
 //addEmployee();
-
 newEmployee();
