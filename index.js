@@ -101,31 +101,50 @@ function addEmployee() {
     fs.writeFileSync(
       `./index.html`,
       /*html*/ `
-      <!DOCTYPE html>
-      <html lang="en">
-        <head>
-          <meta charset="UTF-8" />
-          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
-          <title>Employee List</title>
-        </head>
-    <ul>
-      ${employees.map(
-        (employee) => /*html*/ `
-        <li>
-          <div>
-            <h2>${employee.getName()}</h2>
-            <p>${employee.getEmail()}</p>
-            <p>${employee.getId()}</p>
-            <p>${employee.getRole()}</p>
-          </div>
-        </li>
-      `
-      )}
-    </ul>
-  `
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <title>Employee Index</title>
+  </head>
+  <body> 
+    ${employees.map(
+      (employee) => /*html*/ `
+  <div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">${employee.getName()}</h5>
+    <p>${employee.getRole()}</p>
+    <p>${employee.getId()}</p>
+    <p>${specificRole(employee)}</p>
+    <p><a href="mailto:${employee.getEmail()}"></a>${employee.getEmail()}</p>
+  </div>
+  </div>
+ </body>
+ </html>
+ `
+    )}
+`
     );
+  }
+}
+
+function specificRole(employee) {
+  switch (employee.getRole()) {
+    case "Manager":
+      return `Office Number: ${employee.getOfficeNumber()}`;
+    case "Engineer":
+      return `<a href="https://github.com/${employee.getGithub()}">Github</a>`;
+    case "Intern":
+      return `Stdeunt at: ${employee.getSchool()}`;
   }
 }
 
