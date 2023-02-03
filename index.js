@@ -32,7 +32,7 @@ function newEmployee() {
         message: "What is the id of this employee?",
       },
     ])
-    .then(({ position, email, id, name }) => {
+    .then(({ position, name, email, id }) => {
       switch (position) {
         case "Manager": //TODO - add office number
           inquirer
@@ -44,9 +44,10 @@ function newEmployee() {
               },
             ])
             .then(({ officeNumber }) => {
-              employees.push(new Manager(name, id, email, officeNumber));
+              employees.push(new Manager(name, email, id, officeNumber));
               addEmployee();
             });
+          break;
         case "Intern": //TODO - add school
           inquirer
             .prompt([
@@ -57,10 +58,10 @@ function newEmployee() {
               },
             ])
             .then(({ school }) => {
-              employees.push(new Intern(name, id, email, school));
+              employees.push(new Intern(name, email, id, school));
               addEmployee();
             });
-
+          break;
         case "Engineer": //TODO - add github username
           inquirer
             .prompt([
@@ -71,10 +72,10 @@ function newEmployee() {
               },
             ])
             .then(({ github }) => {
-              employees.push(new Engineer(name, id, email, github));
+              employees.push(new Engineer(name, email, id, github));
               addEmployee();
             });
-
+          break;
         default: //TODO - add default
       }
     });
