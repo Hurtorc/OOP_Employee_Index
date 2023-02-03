@@ -117,10 +117,16 @@ function addEmployee() {
     <title>Employee Index</title>
   </head>
   <body> 
+  <div class="jumbotron jumbotron-fluid bg-dark-subtle" style="text-align: center; background-size: cover; background-position: center;">
+    <h1 class="display-4">Employee Index</h1>
+    <p class="lead">Below is a list of Employees.</p>
+</div>
+  
     ${employees.map(
       (employee) => /*html*/ `
-  <div class="card" style="width: 18rem;">
-  <div class="card-body">
+  <div class="container">
+  <div class="row">
+  <div class="col-md-4 text-dark bg-gradient border border-dark rounded-2" style="box-shadow: 5px 5px 5px">
     <h5 class="card-title">${employee.getName()}</h5>
     <p>${employee.getRole()}</p>
     <p>${employee.getId()}</p>
@@ -128,10 +134,16 @@ function addEmployee() {
     <p><a href="mailto:${employee.getEmail()}"></a>${employee.getEmail()}</p>
   </div>
   </div>
- </body>
- </html>
- `
+  </div>
+
+  `
     )}
+  </div>
+ </body>
+</html>
+
+
+   
 `
     );
   }
@@ -144,7 +156,7 @@ function specificRole(employee) {
     case "Engineer":
       return `<a href="https://github.com/${employee.getGithub()}">Github</a>`;
     case "Intern":
-      return `Stdeunt at: ${employee.getSchool()}`;
+      return `Student at: ${employee.getSchool()}`;
   }
 }
 
